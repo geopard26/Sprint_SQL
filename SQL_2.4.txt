@@ -1,0 +1,28 @@
+SELECT full_name
+FROM users
+WHERE salary = (SELECT MAX(salary) FROM users);
+
+SELECT full_name
+FROM users
+ORDER BY full_name;
+
+SELECT AVG(day), experience
+FROM
+ (SELECT toDate(now()) - users.first_day AS day, experience
+      FROM users) AS temp
+GROUP BY experience;
+
+
+SELECT full_name, department_name
+FROM users
+LEFT JOIN department 
+ON users.department_id = department.department_id;
+
+SELECT full_name, department_name
+FROM users
+LEFT JOIN
+     (SELECT MAX(salary), uniq_id, d.department_name
+      FROM users
+               LEFT JOIN department
+		AS d ON users.department_id = d.department_id
+      			GROUP BY d.department_name) AS temp on users.uniq_id = temp.uniq_id;
