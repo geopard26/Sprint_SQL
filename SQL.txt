@@ -1,0 +1,87 @@
+Запросы:
+
+
+*****
+SELECT uniq_id, full_name, experience
+FROM users;
+
+
+SELECT uniq_id, full_name, experience
+FROM users
+ORDER BY uniq_id
+LIMIT 3;
+
+
+SELECT uniq_id
+FROM users
+LEFT JOIN department 
+ON users.department_id = department.department_id
+WHERE department.department_name = 'Водитель';
+
+
+SELECT full_name
+FROM users
+LEFT JOIN premium 
+ON users.uniq_id = premium.uniq_id
+WHERE premium.estimate_1_qt in ('D', 'E')
+   OR premium.estimate_2_qt in ('D', 'E')
+   OR premium.estimate_3_qt in ('D', 'E')
+   OR premium.estimate_4_qt in ('D', 'E');
+
+
+SELECT MAX(salary)
+FROM users;
+
+
+
+
+
+
+
+******
+Остальной код:
+******
+
+CREATE TABLE users
+(
+    ID SERIAL PRIMARY KEY,
+    full_name CHARACTER VARYING(50),
+    birth_date    Date,
+    first_day     Date,
+    job_grade CHARACTER VARYING(10),
+	job_title CHARACTER VARYING(20),
+    salary INTEGER,
+    department_id INTEGER,
+    rules         BOOL
+);
+
+
+CREATE TABLE departments
+(
+    ID SERIAL PRIMARY KEY,
+    dep_name CHARACTER VARYING(20),
+    lead_name CHARACTER VARYING(50),
+    wokers INTEGER
+);
+
+
+CREATE TABLE evaluates
+(
+    ID SERIAL PRIMARY KEY,
+    full_name CHARACTER VARYING(50),
+    mark CHARACTER VARYING(1)
+);
+
+
+
+
+INSERT INTO department
+VALUES (3, 'data_mining', 'Греф Герман Семенович', 3);
+
+
+INSERT INTO users
+VALUES (6, 'Васильев Артем Николаевич', '01.01.1990', '01.01.2010', 'developer', 'Senior', 100000, 3, True),
+       (7, 'Малоземова Ольга Васильевна', '01.01.1995', '01.01.2015', 'developer', 'Middle', 90000, 3, True),
+       (8, 'Маняхова Марина Георгиевна', '02.01.1990', '01.05.2011', 'developer', 'Junior', 70000, 3, True);
+
+
